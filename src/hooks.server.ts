@@ -1,14 +1,18 @@
-import { sequence } from '@sveltejs/kit/hooks'
-import { handleRemult } from './hooks/handleRemult'
+// import { sequence } from '@sveltejs/kit/hooks'
+// import { handleRemult } from './hooks/handleRemult'
 
-// import type { Handle } from "@sveltejs/kit";
+// export const handle = sequence(handleRemult)
 
-export const handle = sequence(handleRemult)
+import { AsyncLocalStorage } from 'node:async_hooks'
 
-// export const handle: Handle = async ({ event, resolve }) => {
+import type { Handle } from "@sveltejs/kit";
 
-//     if (event.url.pathname.startsWith("/api"))
-//         return new Response('hello world');
+export const handle: Handle = async ({ event, resolve }) => {
 
-//     return await resolve(event);
-// }
+    if (event.url.pathname.startsWith("/api")){
+        const x = new AsyncLocalStorage();
+        return new Response('hello world');
+    }
+
+    return await resolve(event);
+}
